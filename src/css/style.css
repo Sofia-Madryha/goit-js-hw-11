@@ -1,0 +1,22 @@
+.notvisible{
+    display: none;
+}
+
+
+.cat-info{
+    display: flex;
+    flex-direction: row;
+
+}
+.img-cat{
+    width: 200px;
+}
+.cat-desc{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.cat-container{
+    padding: 20px;
+    display: flex;
+    align-content: center;}
