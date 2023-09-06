@@ -7,13 +7,17 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-    <select class="breed-select notvisible" id="multiple">
-      </select> 
-      
-    <p class="loader notvisible" >Loading data, please wait...</p>
-    <p class="error notvisible">Oops! Something went wrong! Try reloading the page!</p>
-    <div class="cat-info"></div>
+    <form class="search-form" id="search-form">
+  <input
+    type="text"
+    name="searchQuery"
+    autocomplete="off"
+    placeholder="Search images..."
 
-    <script src="js/index.js" type="module"></script>
+  />
+  <button type="submit" class="button-js">Search</button>
+</form>
+
+    <script src="js/index.js" type="module" ></script>
   </body>
 </html>
