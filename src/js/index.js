@@ -1,5 +1,4 @@
-import { async } from '@vimeo/player';
-import axios from 'axios';
+import { serviceSearch } from './service.js';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const elements = {
@@ -9,7 +8,6 @@ const elements = {
   listGallery: document.querySelector('.gallery'),
   loadBtn: document.querySelector('.load-more'),
 };
-let page = 1;
 
 elements.form.addEventListener('submit', handlerSubmit);
 elements.loadBtn.addEventListener('click', handlerLoadMore);
@@ -20,58 +18,6 @@ async function handlerSubmit(evt) {
   const searchInfo = await serviceSearch(searchValue);
   elements.listGallery.innerHTML = createMarkup(searchInfo);
   elements.loadBtn.classList.remove('invisible');
-}
-
-async function serviceSearch(searchValue) {
-  const BASE_URL = 'https://pixabay.com/api/';
-
-  const params = new URLSearchParams({
-    key: '39280260-fdc3cfd05b2bfaaf6335e84c8',
-    q: searchValue,
-    image_type: 'photo',
-    orientation: 'horizontal',
-    safesearch: 'true',
-    per_page: 40,
-    page: page,
-  });
-
-  try {
-    const response = await axios.get(`${BASE_URL}?${params}`);
-    if (response.data.hits.length === 0) {
-      Notify.failure(
-        'Sorry, there are no images matching your search query. Please try again.'
-      );
-    } else {
-      const data = response.data.hits;
-      return data.map(
-        ({
-          webformatURL,
-          tags,
-          largeImageURL,
-          likes,
-          views,
-          comments,
-          downloads,
-          totalHits,
-          total,
-        }) => {
-          return {
-            webformatURL,
-            tags,
-            largeImageURL,
-            likes,
-            views,
-            comments,
-            downloads,
-            total,
-            totalHits,
-          };
-        }
-      );
-    }
-  } catch (error) {
-    console.error(error);
-  }
 }
 
 function createMarkup(data) {
@@ -108,15 +54,15 @@ function createMarkup(data) {
     .join('');
 }
 
-async function handlerLoadMore() {
+async function handlerLoadMore(page) { 
+  page += 1;
   if (page >= 13) {
     elements.loadBtn.classList.add('invisible');
     Notify.failure(
       "We're sorry, but you've reached the end of search results."
     );
   } else {
-    page += 1;
-    searchValue = elements.inputValue.value;
+    const searchValue = elements.inputValue.value;
     const searchInfo = await serviceSearch(searchValue);
     elements.listGallery.insertAdjacentHTML(
       'beforeend',
