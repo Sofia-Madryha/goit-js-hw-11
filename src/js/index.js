@@ -20,23 +20,23 @@ async function handlerSubmit(evt) {
   elements.listGallery.innerHTML = '';
   const searchValue = evt.currentTarget.searchQuery.value;
   const searchInfo = await serviceSearch(searchValue);
-  
+
   elements.listGallery.innerHTML = createMarkup(searchInfo);
   elements.loadBtn.classList.remove('invisible');
-  currentPage=1;
+  currentPage = 1;
 }
 
-
-async function handlerLoadMore() { 
+async function handlerLoadMore() {
   currentPage += 1;
-    const searchValue = elements.inputValue.value;
-    const searchInfo = await serviceSearch(searchValue, currentPage);
-    if(searchInfo.length < 40){
-      elements.loadBtn.classList.add('invisible');
+  const searchValue = elements.inputValue.value;
+  const searchInfo = await serviceSearch(searchValue, currentPage);
+  if (searchInfo.length > 40) {
+    elements.loadBtn.classList.add('invisible');
     Notify.failure(
       "We're sorry, but you've reached the end of search results."
     );
-    } else {
+  } else {
+    elements.loadBtn.classList.remove('invisible');
     elements.listGallery.insertAdjacentHTML(
       'beforeend',
       createMarkup(searchInfo)

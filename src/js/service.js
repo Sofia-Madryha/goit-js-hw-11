@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
+let page= 1;
 async function serviceSearch(searchValue, currentPage = 1) {
   const BASE_URL = 'https://pixabay.com/api/';
   const params = new URLSearchParams({
